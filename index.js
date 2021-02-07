@@ -41,7 +41,7 @@ const userChoice = () => {
 // Display data based on user choice
 const handleAnswer = (answer) => {
     if (answer.interaction === 'View All Employees') {
-        connection.query('SELECT * FROM employees', (err, res) => {
+        connection.query('SELECT * FROM employees INNER JOIN roles ON role_id', (err, res) => {
             if (err) throw err;
             console.table(res);
             userChoice();
