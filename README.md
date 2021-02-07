@@ -15,7 +15,8 @@ This is a Node.js  application allows the user to view, add, and remove all depa
 
 
 ## Installation
-``` $npm i 
+``` 
+$npm i 
 $git ignore node_ modules  
 $node index 
 ```
@@ -25,7 +26,7 @@ Once you've run the application using the command "node index", use your keyboar
 
 ## Technologies
 * JavaScript 
-* Node.js *Express.js 
+* Node.js
 * MySql
 
 ## License
