@@ -1,0 +1,25 @@
+{
+  "name": "company-department-manager",
+  "version": "1.0.0",
+  "description": "This is a Node.js  application allows the user to add view employees by department or manager, add or remove employees, or update employee roles straight from the command line. This app uses MySQL to store all data into neat tables that can also be viewed straight from the command line.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaymemizelle/company-department-manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaymemizelle/company-department-manager/issues"
+  },
+  "homepage": "https://github.com/jaymemizelle/company-department-manager/",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^7.3.3",
+    "mysql": "^2.18.1"
+  }
+}
