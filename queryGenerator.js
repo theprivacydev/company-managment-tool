@@ -12,6 +12,7 @@ class Query {
             if (err) throw err;
             console.table(res);
             });
+            // push to employeeList.choices
     }
 
     addToDatabase = (response) => {

@@ -27,10 +27,10 @@ const firstPrompt =
         message: 'What would you like to do?',
         choices: [
             'View All Employees',
-            'View All Employees By Department',
-            'View All Employees By Manager',
             'Add Employee',
             'Remove Employee',
+            'View All Employees By Department',
+            'View All Employees By Manager',
             'Update Employee Role',
             'Update Employee Manager',
             'I\'m Done'
@@ -82,6 +82,22 @@ const employeeInfo =
         }
     ];
 
+const employeeList =  
+    {
+        name: 'manager',
+        type: 'list',
+        message: 'Who is the employee\'s Manager?',
+        choices: [
+            'Michelle Bartow',
+            'Ryan Decker',
+            'Rich Donner',
+            'Rob Hammond',
+            'Denise Jenkins',
+            'Darrel Johnson',
+            'John Smith',
+            'Sally Willis'
+        ]
+    }
 
 // Create the ability to generate a query using the other js file
 const generateQuery = new Query(connection);
@@ -100,9 +116,10 @@ const handleAnswer = (answer) => {
             inquirer.prompt(firstPrompt).then(handleAnswer);
             break;
 
-
-
-
+        case 'Remove Employee':
+            inquirer.prompt(employeeList).then(generateQuery.removeFromDatabase());
+            inquirer.prompt(firstPrompt).then(handleAnswer);
+            break;
 
         case 'I\'m Done':
             console.log('Thanks for using the Company Management Tool! Have a Nice Day!');
