@@ -1,6 +1,7 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
+const Query = require('./queryGenerator.js')
 
 // Esablish connection with Server
 const connection = mysql.createConnection({
@@ -11,35 +12,37 @@ const connection = mysql.createConnection({
     database: 'companyManagementToolDB'
 });
 
+
 // Initiate connection and initiate app by calling first inquirer prompts
 connection.connect((err) => {
     if (err) throw err.stack;
     console.log(connection.threadId);
-    firstUserChoice();
+    startCompanyReview();
 });
 
-// First inquirer prompt
-const firstUserChoice = () => {
-    inquirer.prompt(
-        {
-            name: 'interaction',
-            type: 'list',
-            message: 'What would you like to do?',
-            choices: [
-                'View All Employees',
-                'View All Employees By Department',
-                'View All Employees By Manager',
-                'Add Employee',
-                'Remove Employee',
-                'Update Employee Role',
-                'Update Employee Manager',
+const firstPrompt = 
+    {
+        name: 'interaction',
+        type: 'list',
+        message: 'What would you like to do?',
+        choices: [
+            'View All Employees',
+            'View All Employees By Department',
+            'View All Employees By Manager',
+            'Add Employee',
+            'Remove Employee',
+            'Update Employee Role',
+            'Update Employee Manager',
+            'I\'m Done'
+        ]
+    }
 
-
-            ]
-        }).then(handleAnswer);
+// Start application by starting the first inquirer prompt
+function startCompanyReview() {
+    inquirer.prompt(firstPrompt).then(handleAnswer);
 }
 
-// Get employee info, then add to database
+// Employee info Prompts
 const employeeInfo = 
     [
         {
@@ -79,30 +82,45 @@ const employeeInfo =
         }
     ];
 
+
+// Create the ability to generate a query using the other js file
+const generateQuery = new Query(connection);
+
+
 // Display data based on user choice
 const handleAnswer = (answer) => {
-    if (answer.interaction === 'View All Employees') {
-        const query1 = 'SELECT employees.id, first_name, last_name, department, title, salary FROM employees LEFT JOIN roles ON role_id = department_id LEFT JOIN departments ON departments.id = department_id';
-        connection.query(query1, (err, res) => {
-            if (err) throw err;
-            console.table(res);
-            firstUserChoice();
-          });
-    }
+    switch (answer.interaction) {
+        case 'View All Employees':
+            generateQuery.displayAllEmployees();
+            inquirer.prompt(firstPrompt).then(handleAnswer);
+            break;
+    
+        case 'Add Employee': 
+            inquirer.prompt(employeeInfo).then(generateQuery.addToDatabase());
+            inquirer.prompt(firstPrompt).then(handleAnswer);
+            break;
 
-    if (answer.interaction === 'Add Employee') {
-        inquirer.prompt(employeeInfo).then(addToDatabase)
+
+
+
+
+        case 'I\'m Done':
+            console.log('Thanks for using the Company Management Tool! Have a Nice Day!');
+            break;
     }
 }
 
 
-const addToDatabase = (response) => {
-    const query2 = 'INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?), (?), (?), (?)'
-    connection.query(query2, 
-        [response.first, response.last, response.role, response.manager], 
-        (err, res) => {
-        if (err) throw err;
-        console.table(res);
-        firstUserChoice();
-      });
-}
+// const addToDatabase = (response) => {
+//     const query2 = 'INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?), (?), (?), (?)'
+//     connection.query('INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?), (?), (?), (?)', 
+//         [response.first, response.last, response.role, response.manager], 
+//         (err, res) => {
+//         if (err) throw err;
+//         console.table(res);
+//         firstUserChoice();
+//       });
+// }
+
+module.exports = connection;
+// module.exports = firstUserChoice();
