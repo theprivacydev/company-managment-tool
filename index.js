@@ -123,6 +123,7 @@ const handleAnswer = (answer) => {
 
         case 'I\'m Done':
             console.log('Thanks for using the Company Management Tool! Have a Nice Day!');
+            connection.end();
             break;
     }
 }
