@@ -59,34 +59,33 @@ const employeeInfo =
             name: 'role',
             type: 'list',
             message: 'What is the employee\'s role?',
-            choices: [
-                'Sales Executive',
-                'Engineer',
-                'Accountant',
-                'Data Analyst',
-                'Brand Specialist',
-                'Secretary',
-                'Truck Driver',
-                'IT Tech',
-            ]
+            choices: roleList
         },
         {
             name: 'manager',
             type: 'list',
             message: 'Who is the employee\'s Manager?',
-            choices: [
-                'Denise Jenkins',
-                'Darrel Johnson',
-                'Rob Hammond',
-            ]
+            choices: managerList
         }
     ];
 
 // Creates an empty array to push employee names into from database to make them accessible
 const employeeList =  [];
 
+// Array to push manager names into from database
+const managerList = [];
+
+// Array to push role names into from database
+const roleList = [];
+
 // Creates inquirer prompt that allows user to choose from list of employees
-const 
+const chooseEmployee =  
+        {
+            name: 'chooseEmployee',
+            type: 'list',
+            message: 'Which employee would you like to choose for this action?',
+            choices: employeeList
+        };
 
 // Create the ability to generate a query using the other js file
 const generateQuery = new Query(connection);
@@ -102,25 +101,25 @@ const handleAnswer = (answer) => {
             break;
     
         case 'Add Employee': 
-            inquirer.prompt(employeeInfo).then(generateQuery.addToDatabase(answer)).then( () => {
+            inquirer.prompt(chooseEmployee).then(generateQuery.addToDatabase(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
 
         case 'Remove Employee':
-            inquirer.prompt(employeeList).then(generateQuery.removeFromDatabase(answer)).then( () => {
+            inquirer.prompt(chooseEmployee).then(generateQuery.removeFromDatabase(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
 
         case 'Update Employee Role':
-            inquirer.prompt(employeeList).then(generateQuery.updateRole(answer)).then( () => {
+            inquirer.prompt(chooseEmployee).then(generateQuery.updateRole(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
 
         case 'Update Employee Manager':
-            inquirer.prompt(employeeList).then(generateQuery.updateManager(answer)).then( () => {
+            inquirer.prompt(chooseEmployee).then(generateQuery.updateManager(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
