@@ -30,8 +30,6 @@ const firstPrompt =
             'View All Employees',
             'Add Employee',
             'Remove Employee',
-            'View All Employees By Department',
-            'View All Employees By Manager',
             'Update Employee Role',
             'Update Employee Manager',
 
@@ -87,6 +85,9 @@ const employeeInfo =
 // Creates an empty array to push employee names into from database to make them accessible
 const employeeList =  [];
 
+// Creates inquirer prompt that allows user to choose from list of employees
+const 
+
 // Create the ability to generate a query using the other js file
 const generateQuery = new Query(connection);
 
@@ -107,8 +108,21 @@ const handleAnswer = (answer) => {
             break;
 
         case 'Remove Employee':
-            inquirer.prompt(employeeList).then(generateQuery.removeFromDatabase());
-            inquirer.prompt(firstPrompt).then(handleAnswer);
+            inquirer.prompt(employeeList).then(generateQuery.removeFromDatabase(answer)).then( () => {
+                inquirer.prompt(firstPrompt).then(handleAnswer);
+            });
+            break;
+
+        case 'Update Employee Role':
+            inquirer.prompt(employeeList).then(generateQuery.updateRole(answer)).then( () => {
+                inquirer.prompt(firstPrompt).then(handleAnswer);
+            });
+            break;
+
+        case 'Update Employee Manager':
+            inquirer.prompt(employeeList).then(generateQuery.updateManager(answer)).then( () => {
+                inquirer.prompt(firstPrompt).then(handleAnswer);
+            });
             break;
 
         case 'I\'m Done':
