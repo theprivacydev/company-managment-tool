@@ -20,6 +20,7 @@ connection.connect((err) => {
     startCompanyReview();
 });
 
+// Create first user prompt
 const firstPrompt = 
     {
         name: 'interaction',
@@ -33,6 +34,7 @@ const firstPrompt =
             'View All Employees By Manager',
             'Update Employee Role',
             'Update Employee Manager',
+
             'I\'m Done'
         ]
     }
@@ -42,7 +44,7 @@ function startCompanyReview() {
     inquirer.prompt(firstPrompt).then(handleAnswer);
 }
 
-// Employee info Prompts
+// Create employee info prompts
 const employeeInfo = 
     [
         {
@@ -82,22 +84,7 @@ const employeeInfo =
         }
     ];
 
-const employeeList =  
-    {
-        name: 'manager',
-        type: 'list',
-        message: 'Who is the employee\'s Manager?',
-        choices: [
-            'Michelle Bartow',
-            'Ryan Decker',
-            'Rich Donner',
-            'Rob Hammond',
-            'Denise Jenkins',
-            'Darrel Johnson',
-            'John Smith',
-            'Sally Willis'
-        ]
-    }
+const employeeList =  [];
 
 // Create the ability to generate a query using the other js file
 const generateQuery = new Query(connection);
@@ -107,13 +94,15 @@ const generateQuery = new Query(connection);
 const handleAnswer = (answer) => {
     switch (answer.interaction) {
         case 'View All Employees':
-            generateQuery.displayAllEmployees();
-            inquirer.prompt(firstPrompt).then(handleAnswer);
+            generateQuery.displayAllEmployees().then( () => {
+                inquirer.prompt(firstPrompt).then(handleAnswer)
+            });
             break;
     
         case 'Add Employee': 
-            inquirer.prompt(employeeInfo).then(generateQuery.addToDatabase());
-            inquirer.prompt(firstPrompt).then(handleAnswer);
+            inquirer.prompt(employeeInfo).then(generateQuery.addToDatabase(answer)).then( () => {
+                inquirer.prompt(firstPrompt).then(handleAnswer);
+            });
             break;
 
         case 'Remove Employee':
@@ -129,16 +118,8 @@ const handleAnswer = (answer) => {
 }
 
 
-// const addToDatabase = (response) => {
-//     const query2 = 'INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?), (?), (?), (?)'
-//     connection.query('INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?), (?), (?), (?)', 
-//         [response.first, response.last, response.role, response.manager], 
-//         (err, res) => {
-//         if (err) throw err;
-//         console.table(res);
-//         firstUserChoice();
-//       });
-// }
 
 module.exports = connection;
-// module.exports = firstUserChoice();
+module.exports = startCompanyReview;
+module.exports = employeeInfo;
+module.exports = employeeList;
