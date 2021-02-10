@@ -39,7 +39,7 @@ Once you've run the application using the command "node index", use your keyboar
 
 
 ## Next Steps
-* Consolidate code
+* Refactor and consolidate code for readability
 
 ## Questions
 For additional questions please contact:

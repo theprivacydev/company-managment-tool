@@ -84,6 +84,7 @@ const employeeInfo =
         }
     ];
 
+// Creates an empty array to push employee names into from database to make them accessible
 const employeeList =  [];
 
 // Create the ability to generate a query using the other js file
@@ -118,7 +119,7 @@ const handleAnswer = (answer) => {
 }
 
 
-
+// Export necessary modules to be required in generateQuery.js
 module.exports = connection;
 module.exports = startCompanyReview;
 module.exports = employeeInfo;
