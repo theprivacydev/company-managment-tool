@@ -20,6 +20,18 @@ connection.connect((err) => {
     startCompanyReview();
 });
 
+// Create the ability to generate a query using the other js file
+const generateQuery = new Query(connection);
+
+// Creates an empty array to push employee names into from database to make them accessible
+const employeeList =  [];
+
+// Array to push manager names into from database
+const managerList = [];
+
+// Array to push role names into from database
+const roleList = [];
+
 // Create first user prompt
 const firstPrompt = 
     {
@@ -59,24 +71,15 @@ const employeeInfo =
             name: 'role',
             type: 'list',
             message: 'What is the employee\'s role?',
-            choices: roleList
+            choices: generateQuery.getRoleList()
         },
         {
             name: 'manager',
             type: 'list',
             message: 'Who is the employee\'s Manager?',
-            choices: managerList
+            choices: generateQuery.getManagerList()
         }
     ];
-
-// Creates an empty array to push employee names into from database to make them accessible
-const employeeList =  [];
-
-// Array to push manager names into from database
-const managerList = [];
-
-// Array to push role names into from database
-const roleList = [];
 
 // Creates inquirer prompt that allows user to choose from list of employees
 const chooseEmployee =  
@@ -84,11 +87,8 @@ const chooseEmployee =
             name: 'chooseEmployee',
             type: 'list',
             message: 'Which employee would you like to choose for this action?',
-            choices: employeeList
+            choices: generateQuery.getEmployeeList()
         };
-
-// Create the ability to generate a query using the other js file
-const generateQuery = new Query(connection);
 
 
 // Display data based on user choice
@@ -137,3 +137,5 @@ module.exports = connection;
 module.exports = startCompanyReview;
 module.exports = employeeInfo;
 module.exports = employeeList;
+module.exports = roleList;
+module.exports = managerList;

@@ -3,6 +3,8 @@ const connection = require('./index.js');
 const startCompanyReview = require('./index.js');
 const employeeInfo = require('./index.js');
 const employeeList = require('./index.js');
+const roleList = require('./index.js');
+const managerList = require('./index.js');
 
 class Query {
 
@@ -10,16 +12,38 @@ class Query {
         this.connection = connection;
     }
 
-    getAllEmployees = () => {
+    getEmployeeList = () => {
        return new Promise((resolve, reject) => {
-            connection.query('SELECT first_name, last_name FROM employees', (err, res) => {
+            this.connection.query('SELECT first_name, last_name FROM employees', (err, res) => {
                 if (err) throw err;
-                employeeList.push(res);
                 console.log(res);
                 resolve(res);
             });
         });
     }
+
+    getRoleList = () => {
+        return new Promise((resolve, reject) => {
+            this.connection.query('SELECT title FROM roles', (err, res) => {
+                if (err) throw err;
+                console.log(res);
+                resolve(res);
+            });
+        });
+    }
+
+    getManagerList = () => {
+        return new Promise((resolve, reject) => {
+            this.connection.query('SELECT first_name, last_name FROM employees WHERE manager_id = null', (err, res) => {
+                if (err) throw err;
+                console.log(res);
+                resolve(res);
+            });
+        });
+
+
+    }
+
 
     displayAllEmployees = () => {
         return new Promise((resolve, reject) => {
@@ -34,7 +58,7 @@ class Query {
 
 
 
-    addToDatabase = (answer) => {
+    addEmployeeToDatabase = (answer) => {
         this.connection.query('INSERT INTO employees VALUE (first_name, last_name, role_id, manager_id) VALUES (?), (?), (?), (?)', 
         [answer.first, answer.last, answer.role, answer.manager], 
         (err, res) => {
@@ -45,7 +69,7 @@ class Query {
         // startCompanyReview;
     }
 
-    removeFromDatabase = (answer) => {
+    removeEmployeeFromDatabase = (answer) => {
         return new Promise((resolve, reject) => {
             this.connection.query('DELETE FROM employees WHERE id = ?', [answer.id], (err, res) => {
                 if (err) throw err;
@@ -53,7 +77,6 @@ class Query {
                 resolve(res);
                 });
         });
-
     }
 
 
