@@ -40,6 +40,7 @@ Once you've run the application using the command "node index", use your keyboar
 
 ## Next Steps
 * Refactor and consolidate code for readability
+* Write tests for each js file
 
 ## Questions
 For additional questions please contact:
