@@ -12,6 +12,7 @@ class Query {
         this.connection = connection;
     }
 
+    // Gets a list of employees from database to push into an array to be used for inquirer choices in list prompt
     getEmployeeList = () => {
        return new Promise((resolve, reject) => {
             this.connection.query('SELECT CONCAT(first_name," ", last_name) FROM employees', (err, res) => {
@@ -22,6 +23,7 @@ class Query {
         });
     }
 
+    // Gets a list of roles from database to push into an array to be used for inquirer choices in list prompt
     getRoleList = () => {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT title FROM roles', (err, res) => {
@@ -32,6 +34,7 @@ class Query {
         });
     }
 
+    // Gets a list of managers from database to push into an array to be used for inquirer choices in list prompt
     getManagerList = () => {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT first_name, last_name FROM employees WHERE manager_id = null', (err, res) => {
@@ -44,7 +47,7 @@ class Query {
 
     }
 
-
+    // Displays all employees and their id, title, salary, department and manager
     displayAllEmployees = () => {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT employees.id, first_name, last_name, department, title, salary FROM employees LEFT JOIN roles ON role_id = department_id LEFT JOIN departments ON departments.id = department_id', (err, res) => {
@@ -57,7 +60,7 @@ class Query {
     }
 
 
-
+    // Adds employee to database
     addEmployeeToDatabase = (answer) => {
         this.connection.query('INSERT INTO employees VALUE (first_name, last_name, role_id, manager_id) VALUES (?), (?), (?), (?)', 
         [answer.first, answer.last, answer.role, answer.manager], 
@@ -66,9 +69,9 @@ class Query {
         employeeList.push(res.first_name + res.last_name);
         console.table(res);
         });
-        // startCompanyReview;
     }
 
+    // Removes employee from database
     removeEmployeeFromDatabase = (answer) => {
         return new Promise((resolve, reject) => {
             this.connection.query('DELETE FROM employees WHERE id = ?', [answer.id], (err, res) => {
@@ -79,7 +82,7 @@ class Query {
         });
     }
 
-
+    // Updates a selected employee's role
     updateEmployeeRole = (answer) => {
         return new Promise((resolve, reject) => {
             this.connection.query('UPDATE roles WHERE id = ?', [answer.id], (err, res) => {
@@ -91,6 +94,7 @@ class Query {
 
     }
 
+    // Updates a selected employee's manager
     updateEmployeeManager = (answer) => {
         return new Promise((resolve, reject) => {
             this.connection.query('UPDATE employees WHERE manager_id = ?', [answer.id], (err, res) => {
