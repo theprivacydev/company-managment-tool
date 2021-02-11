@@ -14,9 +14,9 @@ class Query {
 
     getEmployeeList = () => {
        return new Promise((resolve, reject) => {
-            this.connection.query('SELECT first_name, last_name FROM employees', (err, res) => {
+            this.connection.query('SELECT CONCAT(first_name," ", last_name) FROM employees', (err, res) => {
                 if (err) throw err;
-                console.log(res);
+                employeeList.push(res)
                 resolve(res);
             });
         });
@@ -26,7 +26,7 @@ class Query {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT title FROM roles', (err, res) => {
                 if (err) throw err;
-                console.log(res);
+                roleList.push(res);
                 resolve(res);
             });
         });
@@ -36,7 +36,7 @@ class Query {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT first_name, last_name FROM employees WHERE manager_id = null', (err, res) => {
                 if (err) throw err;
-                console.log(res);
+                managerList.push(res);
                 resolve(res);
             });
         });
@@ -80,7 +80,7 @@ class Query {
     }
 
 
-    updateRole = (answer) => {
+    updateEmployeeRole = (answer) => {
         return new Promise((resolve, reject) => {
             this.connection.query('UPDATE roles WHERE id = ?', [answer.id], (err, res) => {
                 if (err) throw err;
@@ -91,7 +91,7 @@ class Query {
 
     }
 
-    updateManager = (answer) => {
+    updateEmployeeManager = (answer) => {
         return new Promise((resolve, reject) => {
             this.connection.query('UPDATE employees WHERE manager_id = ?', [answer.id], (err, res) => {
                 if (err) throw err;

@@ -71,13 +71,13 @@ const employeeInfo =
             name: 'role',
             type: 'list',
             message: 'What is the employee\'s role?',
-            choices: generateQuery.getRoleList()
+            choices: roleList
         },
         {
             name: 'manager',
             type: 'list',
             message: 'Who is the employee\'s Manager?',
-            choices: generateQuery.getManagerList()
+            choices: managerList
         }
     ];
 
@@ -87,7 +87,7 @@ const chooseEmployee =
             name: 'chooseEmployee',
             type: 'list',
             message: 'Which employee would you like to choose for this action?',
-            choices: generateQuery.getEmployeeList()
+            choices: employeeList
         };
 
 
@@ -101,25 +101,29 @@ const handleAnswer = (answer) => {
             break;
     
         case 'Add Employee': 
-            inquirer.prompt(chooseEmployee).then(generateQuery.addToDatabase(answer)).then( () => {
+            generateQuery.getEmployeeList();
+            inquirer.prompt(chooseEmployee).then(generateQuery.addEmployeeToDatabase(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
 
         case 'Remove Employee':
-            inquirer.prompt(chooseEmployee).then(generateQuery.removeFromDatabase(answer)).then( () => {
+            generateQuery.getEmployeeList();
+            inquirer.prompt(chooseEmployee).then(generateQuery.removeEmployeeFromDatabase(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
 
         case 'Update Employee Role':
-            inquirer.prompt(chooseEmployee).then(generateQuery.updateRole(answer)).then( () => {
+            generateQuery.getRoleList();
+            inquirer.prompt(chooseEmployee).then(generateQuery.updateEmployeeRole(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
 
         case 'Update Employee Manager':
-            inquirer.prompt(chooseEmployee).then(generateQuery.updateManager(answer)).then( () => {
+            generateQuery.getManagerList();
+            inquirer.prompt(chooseEmployee).then(generateQuery.updateEmployeeManager(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
