@@ -42,6 +42,8 @@ const firstPrompt =
             'View All Employees',
             'Add Employee',
             'Remove Employee',
+            'Add Role',
+            'Add Department',
             'Update Employee Role',
             'Update Employee Manager',
 
@@ -82,13 +84,23 @@ const employeeInfo =
     ];
 
 // Creates inquirer prompt that allows user to choose from list of employees
-const chooseEmployee =  
+const chooseEmployee =  [
         {
             name: 'chooseEmployee',
             type: 'list',
             message: 'Which employee would you like to choose for this action?',
             choices: employeeList
-        };
+
+        },
+    ]
+
+const chooseRole = 
+{
+    name: 'chooseRole',
+    type: 'input',
+    message: 'What is the role you would like to add?',
+};
+
 
 
 // Display data based on user choice
@@ -113,6 +125,19 @@ const handleAnswer = (answer) => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
+
+        case 'Add Role':
+            (inquirer.prompt(chooseRole).then(generateQuery.addRole(answer.chooseRole))).then( () => {
+                inquirer.prompt(firstPrompt).then(handleAnswer);
+            });
+            break;
+
+        case 'Add Department':
+            (inquirer.prompt(chooseDepartment).then(generateQuery.addDeparment(answer.chooseDepartment))).then( () => {
+                inquirer.prompt(firstPrompt).then(handleAnswer);
+            });
+            break;
+        
 
         case 'Update Employee Role':
             generateQuery.getRoleList();
