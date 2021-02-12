@@ -23,14 +23,9 @@ connection.connect((err) => {
 // Create the ability to generate a query using the other js file
 const generateQuery = new Query(connection);
 
-// Creates an empty array to push employee names into from database to make them accessible
-const employeeList =  [];
-
-// Array to push manager names into from database
-const managerList = [];
-
-// Array to push role names into from database
 const roleList = [];
+const managerList = [];
+const employeeList = [];
 
 // Create first user prompt
 const firstPrompt = 
@@ -84,12 +79,13 @@ const employeeInfo =
     ];
 
 // Creates inquirer prompt that allows user to choose from list of employees
-const chooseEmployee =  [
+
+const chooseEmployee = (employeeList) => [
         {
-            name: 'chooseEmployee',
+            name: 'managerId',
             type: 'list',
             message: 'Which employee would you like to choose for this action?',
-            choices: employeeList
+            choices: employeeList.map(employee => ({name: employee.name, value: employee.id}))
 
         },
     ]
@@ -104,7 +100,7 @@ const chooseRole =
 
 
 // Display data based on user choice
-const handleAnswer = (answer) => {
+const handleAnswer = async (answer) => {
     switch (answer.interaction) {
         case 'View All Employees':
             generateQuery.displayAllEmployees().then( () => {
@@ -113,8 +109,10 @@ const handleAnswer = (answer) => {
             break;
     
         case 'Add Employee': 
-            generateQuery.getEmployeeList();
-            inquirer.prompt(chooseEmployee).then(generateQuery.addEmployeeToDatabase(answer)).then( () => {
+            // generateQuery.getEmployeeList();
+            const employeeList = await generateQuery.getEmployeeList();
+            console.log(employeeList);
+            inquirer.prompt(chooseEmployee(employeeList)).then(generateQuery.addEmployeeToDatabase).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;

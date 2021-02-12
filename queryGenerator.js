@@ -16,7 +16,7 @@ class Query {
        return new Promise((resolve, reject) => {
             this.connection.query('SELECT id, CONCAT(first_name," ", last_name) name FROM employees', (err, res) => {
                 if (err) throw err;
-                employeeList.push({name: res.name, value: res.id});
+                // employeeList.push({name: res.name, value: res.id});
                 resolve(res);
             });
         });
@@ -63,12 +63,15 @@ class Query {
 
     // Adds employee to database
     addEmployeeToDatabase = (answer) => {
-        this.connection.query('INSERT INTO employees VALUE (first_name, last_name, role_id, manager_id) VALUES (?), (?), (?), (?)', 
-        [answer.firstName, answer.lastName, answer.roleId, answer.managerId], 
-        (err, res) => {
-        if (err) throw err;
-        employeeList.push(res.first_name + res.last_name);
-        console.table(res);
+        return new Promise((resolve, reject) => {
+            this.connection.query('INSERT INTO employees VALUE (first_name, last_name, role_id, manager_id) VALUES (?), (?), (?), (?)', 
+            [answer.firstName, answer.lastName, answer.roleId, answer.managerId], 
+            (err, res) => {
+            if (err) throw err;
+            employeeList.push(res.first_name + res.last_name);
+            console.table(res);
+            resolve(res);
+            });
         });
     }
 
