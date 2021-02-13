@@ -129,9 +129,8 @@ const handleAnswer = async (answer) => {
             });
             break;
 
-        case 'View All roles':
-            const roles = await generateQuery.getRoleList();
-           roles.then( () => {
+        case 'View All Roles':
+            generateQuery.getRoleList().then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer)
             });
             break;
