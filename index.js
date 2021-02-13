@@ -34,9 +34,9 @@ const firstPrompt =
             'View All Roles',
             'View All Departments',
             'Add Employee',
-            'Remove Employee',
+            // 'Remove Employee',
             'Add Role',
-            'Remove Role',
+            // 'Remove Role',
             'Add Department',
             'Update Employee Role',
             // 'Update Employee Manager',
@@ -58,11 +58,22 @@ const chooseEmployee = (employeeList) => [
     },
 ]
 
-const userInputRole = [
+const insertRoleInfo = (departments) => [
     {
-        name: 'userInputRole',
+        name: 'role',
         type: 'input',
         message: 'Please type out the name of the role you would like to add.',
+    },
+    {
+        name: 'salary',
+        type: 'input',
+        message: 'Please enter a number for the Salary of this role.',
+    },
+    {
+        name: 'department',
+        type: 'list',
+        message: 'Please choose the Department this role will be entered into.',
+        choices: departments.map(department => ({name: department.department, value: department.id}))
     }
 ]
 
@@ -70,7 +81,7 @@ const chooseRole = (rolesList) => [
 {
     name: 'chooseRole',
     type: 'list',
-    message: 'Please choose the role you would like to remove',
+    message: 'Please choose the role you would like to edit for this action.',
     choices: rolesList.map(role => ({name: role.title, value: role.id}))
 }
 ]
@@ -150,25 +161,26 @@ const handleAnswer = async (answer) => {
             });
             break;
 
-        case 'Remove Employee':
-            const employeeList = await generateQuery.getEmployeeList();
-            inquirer.prompt(chooseEmployee(employeeList)).then(generateQuery.removeEmployeeFromDatabase(answer)).then( () => {
-                inquirer.prompt(firstPrompt).then(handleAnswer);
-            });
-            break;
+        // case 'Remove Employee':
+        //     const employeeList = await generateQuery.getEmployeeList();
+        //     inquirer.prompt(chooseEmployee(employeeList)).then(generateQuery.removeEmployeeFromDatabase(answer)).then( () => {
+        //         inquirer.prompt(firstPrompt).then(handleAnswer);
+        //     });
+        //     break;
 
         case 'Add Role':
-            inquirer.prompt(userInputRole).then(generateQuery.addRole(answer)).then( () => {
+            const departments = await generateQuery.getDepartmentList();
+            inquirer.prompt(insertRoleInfo(departments)).then(generateQuery.addRole(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
 
-        case 'Remove Role':
-            const rolesList = await generateQuery.getRoleList();
-            inquirer.prompt(chooseRole(rolesList)).then(generateQuery.addRole(answer)).then( () => {
-                inquirer.prompt(firstPrompt).then(handleAnswer);
-            });
-            break;
+        // case 'Remove Role':
+        //     const rolesList = await generateQuery.getRoleList();
+        //     inquirer.prompt(chooseRole(rolesList)).then(generateQuery.addRole(answer)).then( () => {
+        //         inquirer.prompt(firstPrompt).then(handleAnswer);
+        //     });
+        //     break;
 
         case 'Add Department':
             const departmentList = await generateQuery.getDepartmentList();

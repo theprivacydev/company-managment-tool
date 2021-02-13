@@ -93,9 +93,9 @@ class Query {
     // Adds role to database
     addRole = (answer) => {
         return new Promise((resolve, reject) => {
-            this.connection.query('INSERT INTO roles SET ?', [answer.userInputRole], (err, res) => {
+            this.connection.query('INSERT INTO roles SET ?', {title: answer.role, salary: answer.salary, department_id: answer.department}, (err, res) => {
                 if (err) throw err;
-                console.table(this.getRoleList());
+                // this.getRoleList();
                 resolve(res);
                 });
         });
