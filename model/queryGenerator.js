@@ -95,7 +95,7 @@ class Query {
         return new Promise((resolve, reject) => {
             this.connection.query('INSERT INTO roles SET ?', [answer.userInputRole], (err, res) => {
                 if (err) throw err;
-                console.table(res);
+                console.table(this.getRoleList());
                 resolve(res);
                 });
         });
@@ -106,7 +106,7 @@ class Query {
         return new Promise((resolve, reject) => {
             this.connection.query('DELETE FROM roles WHERE ?', [answer.chooseRole], (err, res) => {
                 if (err) throw err;
-                console.table(res);
+                console.table(this.getRoleList());
                 resolve(res);
                 });
         });
@@ -117,7 +117,7 @@ class Query {
         return new Promise((resolve, reject) => {
             this.connection.query('INSERT INTO departments SET ?', [answer.chooseDepartment], (err, res) => {
                 if (err) throw err;
-                console.table();
+                console.table(this.getDepartmentList());
                 resolve(res);
                 });
         });
@@ -129,7 +129,7 @@ class Query {
         // return new Promise((resolve, reject) => {
             this.connection.query('UPDATE roles WHERE id = ?', [answer.id], (err, res) => {
                 if (err) throw err;
-                console.table("\n", res);
+                console.table(this.displayAllEmployees());
                 // resolve(res);
                 });
         // });
@@ -141,7 +141,7 @@ class Query {
         return new Promise((resolve, reject) => {
             this.connection.query('UPDATE employees WHERE manager_id = ?', [answer.id], (err, res) => {
                 if (err) throw err;
-                console.table("\n", res);
+                console.table(this.displayAllEmployees());
                 resolve(res);
                 });
         });
