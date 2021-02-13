@@ -13,7 +13,6 @@ class Query {
        return new Promise((resolve, reject) => {
             this.connection.query('SELECT id, CONCAT(first_name," ", last_name) name FROM employees', (err, res) => {
                 if (err) throw err;
-                // employeeList.push({name: res.name, value: res.id});
                 resolve(res);
             });
         });
@@ -24,9 +23,20 @@ class Query {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT * FROM roles', (err, res) => {
                 if (err) throw err;
-                // roleList.push({name: res.title, value: res.id});
-                // managerList.push({name: res.name, value: res.id});
-                console.log("You've add a role!");
+                console.log("You've added a role!");
+                // console.table(this.getRoleList);
+                // console.table(res)
+                resolve(res);
+            });
+        });
+    }
+
+
+    getDepartmentList = () => {
+        return new Promise((resolve, reject) => {
+            this.connection.query('SELECT * FROM departments', (err, res) => {
+                if (err) throw err;
+                console.log("You've added a department!");
                 // console.table(this.getRoleList);
                 resolve(res);
             });
@@ -38,7 +48,6 @@ class Query {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT first_name, last_name FROM employees WHERE manager_id = null', (err, res) => {
                 if (err) throw err;
-                // managerList.push(res);
                 resolve(res);
             });
         });
@@ -76,7 +85,7 @@ class Query {
     // Removes employee from database
     removeEmployeeFromDatabase = (answer) => {
         return new Promise((resolve, reject) => {
-            this.connection.query('DELETE FROM employees WHERE id = ?', [answer], (err, res) => {
+            this.connection.query('DELETE FROM employees WHERE id = ?', [answer.chooseEmployee], (err, res) => {
                 if (err) throw err;
                 console.table("\n", res);
                 resolve(res);
@@ -86,9 +95,8 @@ class Query {
 
     addRole = (answer) => {
         return new Promise((resolve, reject) => {
-            this.connection.query('INSERT INTO roles VALUE ?', [answer], (err, res) => {
+            this.connection.query('INSERT INTO roles SET ?', [answer.chooseRole], (err, res) => {
                 if (err) throw err;
-                roleList.push(answer);
                 console.table(res);
                 resolve(res);
                 });
@@ -97,7 +105,7 @@ class Query {
 
     addDepartment = (answer) => {
         return new Promise((resolve, reject) => {
-            this.connection.query('INSERT INTO roles VALUE ?', [answer], (err, res) => {
+            this.connection.query('INSERT INTO departments SET ?', [answer.chooseDepartment], (err, res) => {
                 if (err) throw err;
                 console.table();
                 resolve(res);

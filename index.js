@@ -48,7 +48,7 @@ const firstPrompt =
 
 const chooseEmployee = (employeeList) => [
     {
-        name: 'managerId',
+        name: 'chooseEmployee',
         type: 'list',
         message: 'Which employee would you like to choose for this action?',
         choices: employeeList.map(employee => ({name: employee.name, value: employee.id}))
@@ -56,14 +56,23 @@ const chooseEmployee = (employeeList) => [
     },
 ]
 
-const chooseRole = (roleList) => [
+const chooseRole = (rolesList) => [
 {
     name: 'chooseRole',
     type: 'input',
     message: 'Choose role you would like to add?',
-    choices: roleList.map(employee => ({name: role.title, value: employee.id}))
+    choices: rolesList.map(role => ({name: role.title, value: role.id}))
 }
 ]
+
+const chooseDepartment = (departmentList) => [
+    {
+        name: 'chooseDepartment',
+        type: 'input',
+        message: 'Choose the department you would like to add.',
+        choices: departmentList.map(d => ({name: d.department, value: d.id}))
+    }
+    ]
 
 
 // Create employee info prompts
@@ -125,29 +134,29 @@ const handleAnswer = async (answer) => {
             break;
 
         case 'Add Role':
-            roleList = await generateQuery.getRoleList();
-            (inquirer.prompt(chooseRole(roleList)).then(generateQuery.addRole(answer.chooseRole))).then( () => {
+            const rolesList = await generateQuery.getRoleList();
+            inquirer.prompt(chooseRole(rolesList)).then(generateQuery.addRole(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
 
         case 'Add Department':
-            (inquirer.prompt(chooseDepartment).then(generateQuery.addDeparment(answer.chooseDepartment))).then( () => {
+            const departmentList = await generateQuery.getDepartmentList();
+            inquirer.prompt(chooseDepartment(departmentList)).then(generateQuery.addDepartment(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
         
 
         case 'Update Employee Role':
-            generateQuery.getRoleList();
-            inquirer.prompt(chooseEmployee).then(generateQuery.updateEmployeeRole(answer)).then( () => {
+            inquirer.prompt(chooseEmployee(employeeList)).then(generateQuery.updateEmployeeRole(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
 
         case 'Update Employee Manager':
-            generateQuery.getManagerList();
-            inquirer.prompt(chooseEmployee).then(generateQuery.updateEmployeeManager(answer)).then( () => {
+            // const managerList = await generateQuery.getManagerList();
+            inquirer.prompt(chooseEmployee(employeeList)).then(generateQuery.updateEmployeeManager(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
