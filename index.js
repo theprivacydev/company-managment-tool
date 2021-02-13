@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'caballodeViento3;',
+    password: '',
     database: 'companyManagementToolDB'
 });
 
@@ -59,7 +59,7 @@ const chooseEmployee = (employeeList) => [
 const chooseRole = (rolesList) => [
 {
     name: 'chooseRole',
-    type: 'input',
+    type: 'list',
     message: 'Choose role you would like to add?',
     choices: rolesList.map(role => ({name: role.title, value: role.id}))
 }
