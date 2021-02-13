@@ -24,7 +24,7 @@ CREATE TABLE employees (
   first_name VARCHAR(45),
   last_name VARCHAR(45),
   role_id INT,
-  manager_id NULL,
+  manager_id INT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
   FOREIGN KEY (manager_id) REFERENCES employees(id) ON DELETE SET NULL
