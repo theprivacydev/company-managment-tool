@@ -31,9 +31,12 @@ const firstPrompt =
         message: 'What would you like to do?',
         choices: [
             'View All Employees',
+            'View All Roles',
+            'View All Departments',
             'Add Employee',
             'Remove Employee',
             'Add Role',
+            'Remove Role',
             'Add Department',
             'Update Employee Role',
             'Update Employee Manager',
@@ -56,11 +59,19 @@ const chooseEmployee = (employeeList) => [
     },
 ]
 
+const userInputRole = [
+    {
+        name: 'userInputRole',
+        type: 'input',
+        message: 'Please type out the name of the role you would like to add.',
+    }
+]
+
 const chooseRole = (rolesList) => [
 {
     name: 'chooseRole',
     type: 'list',
-    message: 'Choose role you would like to add?',
+    message: 'Please choose the role you would like to remove',
     choices: rolesList.map(role => ({name: role.title, value: role.id}))
 }
 ]
@@ -113,10 +124,24 @@ function startCompanyReview() {
 const handleAnswer = async (answer) => {
     switch (answer.interaction) {
         case 'View All Employees':
-            generateQuery.displayAllEmployees().then( () => {
+             generateQuery.displayAllEmployees().then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer)
             });
             break;
+
+        case 'View All roles':
+            const roles = await generateQuery.getRoleList();
+           roles.then( () => {
+                inquirer.prompt(firstPrompt).then(handleAnswer)
+            });
+            break;
+
+        case 'View All Departments':
+            generateQuery.getDepartmentList().then( () => {
+                inquirer.prompt(firstPrompt).then(handleAnswer)
+            });
+            break;
+
     
         case 'Add Employee': 
             let roleList = await generateQuery.getRoleList();
@@ -134,6 +159,12 @@ const handleAnswer = async (answer) => {
             break;
 
         case 'Add Role':
+            inquirer.prompt(userInputRole).then(generateQuery.addRole(answer)).then( () => {
+                inquirer.prompt(firstPrompt).then(handleAnswer);
+            });
+            break;
+
+        case 'Remove Role':
             const rolesList = await generateQuery.getRoleList();
             inquirer.prompt(chooseRole(rolesList)).then(generateQuery.addRole(answer)).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);

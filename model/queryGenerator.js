@@ -8,7 +8,7 @@ class Query {
         this.connection = connection;
     }
 
-    // Gets a list of employees from database to push into an array to be used for inquirer choices in list prompt
+    // Gets a list of employees from database
     getEmployeeList = () => {
        return new Promise((resolve, reject) => {
             this.connection.query('SELECT id, CONCAT(first_name," ", last_name) name FROM employees', (err, res) => {
@@ -18,35 +18,32 @@ class Query {
         });
     }
 
-    // Gets a list of roles from database to push into an array to be used for inquirer choices in list prompt
+    // Gets a list of roles from database
     getRoleList = () => {
         return new Promise((resolve, reject) => {
-            this.connection.query('SELECT * FROM roles', (err, res) => {
+            this.connection.query('SELECT roles.id, roles.title, roles.salary FROM roles ', (err, res) => {
                 if (err) throw err;
-                console.log("You've added a role!");
-                // console.table(this.getRoleList);
-                // console.table(res)
+                console.table("\n", res);
                 resolve(res);
             });
         });
     }
 
-
+    // Gets a list of departments from database
     getDepartmentList = () => {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT * FROM departments', (err, res) => {
                 if (err) throw err;
-                console.log("You've added a department!");
-                // console.table(this.getRoleList);
+                console.table("\n", res);
                 resolve(res);
             });
         });
     }
 
-    // Gets a list of managers from database to push into an array to be used for inquirer choices in list prompt
+    // Gets a list of managers from database
     getManagerList = () => {
         return new Promise((resolve, reject) => {
-            this.connection.query('SELECT first_name, last_name FROM employees WHERE manager_id = null', (err, res) => {
+            this.connection.query("SELECT CONCAT(first_name, ' ', last_name) Managers FROM employees WHERE manager_id = null", (err, res) => {
                 if (err) throw err;
                 resolve(res);
             });
@@ -93,9 +90,10 @@ class Query {
         });
     }
 
+    // Adds role to database
     addRole = (answer) => {
         return new Promise((resolve, reject) => {
-            this.connection.query('INSERT INTO roles SET ?', [answer.chooseRole], (err, res) => {
+            this.connection.query('INSERT INTO roles SET ?', [answer.userInputRole], (err, res) => {
                 if (err) throw err;
                 console.table(res);
                 resolve(res);
@@ -103,6 +101,18 @@ class Query {
         });
     }
 
+    // Removes role from database
+    removeRole = (answer) => {
+        return new Promise((resolve, reject) => {
+            this.connection.query('DELETE FROM roles WHERE ?', [answer.chooseRole], (err, res) => {
+                if (err) throw err;
+                console.table(res);
+                resolve(res);
+                });
+        });
+    }
+
+    // Adds department to database
     addDepartment = (answer) => {
         return new Promise((resolve, reject) => {
             this.connection.query('INSERT INTO departments SET ?', [answer.chooseDepartment], (err, res) => {
