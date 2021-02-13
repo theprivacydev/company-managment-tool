@@ -78,11 +78,11 @@ const chooseRole = (rolesList) => [
 const chooseDepartment = (departmentList) => [
     {
         name: 'chooseDepartment',
-        type: 'input',
+        type: 'list',
         message: 'Choose the department you would like to add.',
         choices: departmentList.map(d => ({name: d.department, value: d.id}))
     }
-    ]
+];
 
 
 // Create employee info prompts
@@ -108,7 +108,7 @@ const employeeInfo = (roleList, managerList) =>
         name: 'manager',
         type: 'list',
         message: 'Who is the employee\'s Manager?',
-        choices: managerList.map(manager => ({name: manager.name, value: manager.id}))
+        choices: managerList.map(manager => ({name: manager.Managers, value: manager.id}))
     }
 ];
 
@@ -144,6 +144,7 @@ const handleAnswer = async (answer) => {
         case 'Add Employee': 
             let roleList = await generateQuery.getRoleList();
             const managerList = await generateQuery.getManagerList();
+            console.log("Our manager list is: ", managerList);
             inquirer.prompt(employeeInfo(roleList, managerList)).then(generateQuery.addEmployeeToDatabase).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });

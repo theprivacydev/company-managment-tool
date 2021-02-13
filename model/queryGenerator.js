@@ -43,7 +43,7 @@ class Query {
     // Gets a list of managers from database
     getManagerList = () => {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT CONCAT(first_name, ' ', last_name) Managers FROM employees WHERE manager_id = null", (err, res) => {
+            this.connection.query("SELECT id, CONCAT(first_name, ' ', last_name) Managers FROM employees WHERE manager_id IS NULL", (err, res) => {
                 if (err) throw err;
                 resolve(res);
             });
@@ -68,7 +68,7 @@ class Query {
     addEmployeeToDatabase = (answer) => {
         return new Promise((resolve, reject) => {
             this.connection.query('INSERT INTO employees SET ?',
-            [answer.first, answer.last, answer.role, answer.manager.value], 
+            {first_name: answer.first, last_name: answer.last, role_id: answer.role, manager_id: answer.manager}, 
             (err, res) => {
             if (err) throw err;
             // roleList.push({name: res.first, value: res.id});
@@ -115,7 +115,7 @@ class Query {
     // Adds department to database
     addDepartment = (answer) => {
         return new Promise((resolve, reject) => {
-            this.connection.query('INSERT INTO departments VALUES (?)', [answer.chooseDepartment], (err, res) => {
+            this.connection.query('INSERT INTO departments VALUES (?)', [`"${answer.chooseDepartment}"`], (err, res) => {
                 if (err) throw err;
                 this.getDepartmentList();
                 resolve(res);

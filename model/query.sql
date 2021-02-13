@@ -26,3 +26,6 @@ SELECT * FROM employees
 --Returns all departments
 SELECT * FROM departments
 
+--
+SELECT id, CONCAT(first_name, ' ', last_name) Managers FROM employees WHERE manager_id IS NULL
+
