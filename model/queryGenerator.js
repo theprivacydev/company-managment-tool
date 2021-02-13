@@ -115,7 +115,7 @@ class Query {
     // Adds department to database
     addDepartment = (answer) => {
         return new Promise((resolve, reject) => {
-            this.connection.query('INSERT INTO departments VALUES (?)', [`"${answer.chooseDepartment}"`], (err, res) => {
+            this.connection.query('INSERT INTO departments SET ?,', {department: answer.chooseDepartment}, (err, res) => {
                 if (err) throw err;
                 this.getDepartmentList();
                 resolve(res);

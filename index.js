@@ -170,7 +170,7 @@ const handleAnswer = async (answer) => {
 
         case 'Add Role':
             const departments = await generateQuery.getDepartmentList();
-            inquirer.prompt(insertRoleInfo(departments)).then(generateQuery.addRole(answer)).then( () => {
+            inquirer.prompt(insertRoleInfo(departments)).then(generateQuery.addRole).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
