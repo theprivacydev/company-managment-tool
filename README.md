@@ -39,7 +39,9 @@ Once you've run the application using the command "node index", use your keyboar
 
 
 ## Next Steps
+* Add ability for user to update employee managers, view employees by manager, and delete departments
 * Refactor and consolidate code for readability
+* Clean up file structure into MVC
 * Write tests for each js file
 
 ## Questions

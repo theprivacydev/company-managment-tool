@@ -39,8 +39,7 @@ const firstPrompt =
             'Remove Role',
             'Add Department',
             'Update Employee Role',
-            'Update Employee Manager',
-
+            // 'Update Employee Manager',
             'I\'m Done'
         ]
     }
@@ -184,12 +183,12 @@ const handleAnswer = async (answer) => {
             });
             break;
 
-        case 'Update Employee Manager':
-            // const managerList = await generateQuery.getManagerList();
-            inquirer.prompt(chooseEmployee(employeeList)).then(generateQuery.updateEmployeeManager(answer)).then( () => {
-                inquirer.prompt(firstPrompt).then(handleAnswer);
-            });
-            break;
+        // case 'Update Employee Manager':
+        //     // const managerList = await generateQuery.getManagerList();
+        //     inquirer.prompt(chooseEmployee(employeeList)).then(generateQuery.updateEmployeeManager(answer)).then( () => {
+        //         inquirer.prompt(firstPrompt).then(handleAnswer);
+        //     });
+        //     break;
 
         case 'I\'m Done':
             console.log('Thanks for using the Company Management Tool! Have a Nice Day!');
@@ -197,6 +196,11 @@ const handleAnswer = async (answer) => {
             break;
     }
 }
+
+
+// What I would try for that one- is build an employee object - using all the values you collected then pass that into a separate function that handles the createEmployee and takes in an object --> using
+// this.connection.promise().query("INSERT INTO employee SET ?", employee);
+// Where employee is the object with the properties on it
 
 
 
