@@ -1,1 +1,0 @@
-let employee = res.map(employee => ({name: employees.first_name + '' + employees.last_name, value: employees.id}));

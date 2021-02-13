@@ -1,9 +1,6 @@
 const mysql = require('mysql');
-const connection = require('./index.js');
-const getEmployeeInfo = require('./index.js');
-const employeeList = require('./index.js');
-const roleList = require('./index.js');
-const managerList = require('./index.js');
+const connection = require('../index.js');
+
 
 class Query {
 
@@ -25,12 +22,12 @@ class Query {
     // Gets a list of roles from database to push into an array to be used for inquirer choices in list prompt
     getRoleList = () => {
         return new Promise((resolve, reject) => {
-            this.connection.query('SELECT title, id FROM roles', (err, res) => {
+            this.connection.query('SELECT * FROM roles', (err, res) => {
                 if (err) throw err;
-                roleList.push(res);
-                console.log(roleList);
+                // roleList.push({name: res.title, value: res.id});
+                // managerList.push({name: res.name, value: res.id});
                 console.log("You've add a role!");
-                console.table(this.getRoleList);
+                // console.table(this.getRoleList);
                 resolve(res);
             });
         });
@@ -41,7 +38,7 @@ class Query {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT first_name, last_name FROM employees WHERE manager_id = null', (err, res) => {
                 if (err) throw err;
-                managerList.push(res);
+                // managerList.push(res);
                 resolve(res);
             });
         });
@@ -64,11 +61,12 @@ class Query {
     // Adds employee to database
     addEmployeeToDatabase = (answer) => {
         return new Promise((resolve, reject) => {
-            this.connection.query('INSERT INTO employees VALUE (first_name, last_name, role_id, manager_id) VALUES (?), (?), (?), (?)', 
-            [answer.firstName, answer.lastName, answer.roleId, answer.managerId], 
+            this.connection.query('INSERT INTO employees SET ?',
+            [answer.first, answer.last, answer.role, answer.manager.value], 
             (err, res) => {
             if (err) throw err;
-            employeeList.push(res.first_name + res.last_name);
+            // roleList.push({name: res.first, value: res.id});
+            console.log(res);
             console.table(res);
             resolve(res);
             });
