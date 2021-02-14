@@ -8,6 +8,7 @@ This is a Node.js  application allows the user to view, add, and remove all depa
 ## Table of Contents
   - [Installation](#installation)
   - [Usage](#usage)
+  - [Walkthrough Video Link](#walkthrough-video-link)
   - [Technologies](#technologies)
   - [License](#license)
   - [Next Steps](#next-steps)
@@ -15,6 +16,8 @@ This is a Node.js  application allows the user to view, add, and remove all depa
 
 
 ## Installation
+Clone the repository to your local machine, open the index.js in the integrated terminal and run the following from the command line:
+
 ``` 
 $npm i 
 $git ignore node_ modules  
@@ -23,6 +26,9 @@ $node index
 
 ## Usage
 Once you've run the application using the command "node index", use your keyboard arrows to move and up and down over the choices, and then hit enter to choose what you would like to do from the list of options. If that involves adding or deleting departments or employees, then enter their information when prompted.
+
+## Walkthrough Video Link
+* https://drive.google.com/file/d/13gDSAZ2w3xqj6sM3qAQ26BZhp9q5XUq9/view
 
 ## Technologies
 * JavaScript 
@@ -39,9 +45,9 @@ Once you've run the application using the command "node index", use your keyboar
 
 
 ## Next Steps
-* Add ability for user to update employee managers, view employees by manager, and delete departments
+* Add ability for user to update employee managers, view employees by manager, as well as delete employees, roles and departments
 * Refactor and consolidate code for readability
-* Clean up file structure into MVC
+* Clean up file structure into MVC by abstracting inquirer prompts and my sql connection into separate files from index.js
 * Write tests for each js file
 
 ## Questions
