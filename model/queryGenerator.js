@@ -99,14 +99,14 @@ class Query {
     }
 
     // Removes role from database
-    removeRole = (answer) => {
-        return new Promise((resolve, reject) => {
-            this.connection.query('DELETE FROM roles WHERE ?', [answer.chooseRole], (err, res) => {
-                if (err) throw err;
-                resolve(res);
-                });
-        });
-    }
+    // removeRole = (answer) => {
+    //     return new Promise((resolve, reject) => {
+    //         this.connection.query('DELETE FROM roles WHERE ?', [answer.chooseRole], (err, res) => {
+    //             if (err) throw err;
+    //             resolve(res);
+    //             });
+    //     });
+    // }
 
     // Adds department to database
     addDepartment = (answer) => {
@@ -122,12 +122,12 @@ class Query {
 
     // Updates a selected employee's role
     updateEmployeeRole = (answer) => {
-        // return new Promise((resolve, reject) => {
-            this.connection.query('UPDATE employees SET ? WHERE id = ?', {}, (err, res) => {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`UPDATE employees SET role_id = ${answer.chooseRole} WHERE id = ${answer.chooseEmployee}`, (err, res) => {
                 if (err) throw err;
                 resolve(res);
                 });
-        // });
+        });
 
     }
 

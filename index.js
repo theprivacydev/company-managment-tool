@@ -133,9 +133,9 @@ const employeeInfo = (roleList, managerList) =>
     }
 ];
 
-const updateRoleInfo = (employee, role) => [
-    chooseEmployee(employee);
-    chooseRole(role);
+const updateRoleInfo = (employeeList, rolesList) => [
+    chooseEmployee(employeeList),
+    chooseRole(rolesList)
 ]
 
 
@@ -189,12 +189,12 @@ const handleAnswer = async (answer) => {
             });
             break;
 
-        case 'Remove Role':
-            const rolesList = await generateQuery.getRoleList();
-            inquirer.prompt(chooseRole(rolesList)).then(generateQuery.removeRole).then( () => {
-                inquirer.prompt(firstPrompt).then(handleAnswer);
-            });
-            break;
+        // case 'Remove Role':
+        //     const rolesList = await generateQuery.getRoleList();
+        //     inquirer.prompt(chooseRole(rolesList)).then(generateQuery.removeRole).then( () => {
+        //         inquirer.prompt(firstPrompt).then(handleAnswer);
+        //     });
+        //     break;
 
         case 'Add Department':
             // const departmentList = await generateQuery.getDepartmentList();
