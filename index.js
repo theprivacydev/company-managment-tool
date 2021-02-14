@@ -133,6 +133,11 @@ const employeeInfo = (roleList, managerList) =>
     }
 ];
 
+const updateRoleInfo = (employee, role) => [
+    chooseEmployee(employee);
+    chooseRole(role);
+]
+
 
 // Start application by starting the first inquirer prompt
 function startCompanyReview() {
@@ -165,7 +170,6 @@ const handleAnswer = async (answer) => {
         case 'Add Employee': 
             let roleList = await generateQuery.getRoleList();
             const managerList = await generateQuery.getManagerList();
-            console.log("Our manager list is: ", managerList);
             inquirer.prompt(employeeInfo(roleList, managerList)).then(generateQuery.addEmployeeToDatabase).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
@@ -185,12 +189,12 @@ const handleAnswer = async (answer) => {
             });
             break;
 
-        // case 'Remove Role':
-        //     const rolesList = await generateQuery.getRoleList();
-        //     inquirer.prompt(chooseRole(rolesList)).then(generateQuery.addRole(answer)).then( () => {
-        //         inquirer.prompt(firstPrompt).then(handleAnswer);
-        //     });
-        //     break;
+        case 'Remove Role':
+            const rolesList = await generateQuery.getRoleList();
+            inquirer.prompt(chooseRole(rolesList)).then(generateQuery.removeRole).then( () => {
+                inquirer.prompt(firstPrompt).then(handleAnswer);
+            });
+            break;
 
         case 'Add Department':
             // const departmentList = await generateQuery.getDepartmentList();
@@ -201,7 +205,9 @@ const handleAnswer = async (answer) => {
         
 
         case 'Update Employee Role':
-            inquirer.prompt(chooseEmployee(employeeList)).then(generateQuery.updateEmployeeRole(answer)).then( () => {
+            const employee = await generateQuery.getEmployeeList();
+            const role = await generateQuery.getRoleList();
+            inquirer.prompt(updateRoleInfo(employee, role)).then(generateQuery.updateEmployeeRole).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;

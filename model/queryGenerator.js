@@ -71,9 +71,6 @@ class Query {
             {first_name: answer.first, last_name: answer.last, role_id: answer.role, manager_id: answer.manager}, 
             (err, res) => {
             if (err) throw err;
-            // roleList.push({name: res.first, value: res.id});
-            console.log(res);
-            console.table(res);
             resolve(res);
             });
         });
@@ -106,7 +103,6 @@ class Query {
         return new Promise((resolve, reject) => {
             this.connection.query('DELETE FROM roles WHERE ?', [answer.chooseRole], (err, res) => {
                 if (err) throw err;
-                console.table(this.getRoleList());
                 resolve(res);
                 });
         });
@@ -127,25 +123,24 @@ class Query {
     // Updates a selected employee's role
     updateEmployeeRole = (answer) => {
         // return new Promise((resolve, reject) => {
-            this.connection.query('UPDATE roles WHERE id = ?', [answer.id], (err, res) => {
+            this.connection.query('UPDATE employees SET ? WHERE id = ?', {}, (err, res) => {
                 if (err) throw err;
-                console.table(this.displayAllEmployees());
-                // resolve(res);
+                resolve(res);
                 });
         // });
 
     }
 
     // Updates a selected employee's manager
-    updateEmployeeManager = (answer) => {
-        return new Promise((resolve, reject) => {
-            this.connection.query('UPDATE employees WHERE manager_id = ?', [answer.id], (err, res) => {
-                if (err) throw err;
-                console.table(this.displayAllEmployees());
-                resolve(res);
-                });
-        });
-    }
+    // updateEmployeeManager = (answer) => {
+    //     return new Promise((resolve, reject) => {
+    //         this.connection.query('UPDATE employees WHERE manager_id = ?', [answer.id], (err, res) => {
+    //             if (err) throw err;
+    //             console.table(this.displayAllEmployees());
+    //             resolve(res);
+    //             });
+    //     });
+    // }
 
 }
 
