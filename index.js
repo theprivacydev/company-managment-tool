@@ -77,6 +77,16 @@ const insertRoleInfo = (departments) => [
     }
 ]
 
+const insertDepartmentInfo = () => [
+
+    {
+        name: 'department',
+        type: 'input',
+        message: 'Please type out the name of the department you would like to add.',
+    },
+
+]
+
 const chooseRole = (rolesList) => [
 {
     name: 'chooseRole',
@@ -183,8 +193,8 @@ const handleAnswer = async (answer) => {
         //     break;
 
         case 'Add Department':
-            const departmentList = await generateQuery.getDepartmentList();
-            inquirer.prompt(chooseDepartment(departmentList)).then(generateQuery.addDepartment(answer)).then( () => {
+            // const departmentList = await generateQuery.getDepartmentList();
+            inquirer.prompt(insertDepartmentInfo()).then(generateQuery.addDepartment).then( () => {
                 inquirer.prompt(firstPrompt).then(handleAnswer);
             });
             break;
