@@ -77,15 +77,15 @@ class Query {
     }
 
     // Removes employee from database
-    removeEmployeeFromDatabase = (answer) => {
-        return new Promise((resolve, reject) => {
-            this.connection.query('DELETE FROM employees WHERE id = ?', [answer.chooseEmployee], (err, res) => {
-                if (err) throw err;
-                console.table("\n", res);
-                resolve(res);
-                });
-        });
-    }
+    // removeEmployeeFromDatabase = (answer) => {
+    //     return new Promise((resolve, reject) => {
+    //         this.connection.query('DELETE FROM employees WHERE id = ?', [answer.chooseEmployee], (err, res) => {
+    //             if (err) throw err;
+    //             console.table("\n", res);
+    //             resolve(res);
+    //             });
+    //     });
+    // }
 
     // Adds role to database
     addRole = (answer) => {

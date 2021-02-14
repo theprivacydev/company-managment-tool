@@ -134,8 +134,8 @@ const employeeInfo = (roleList, managerList) =>
 ];
 
 const updateRoleInfo = (employeeList, rolesList) => [
-    chooseEmployee(employeeList),
-    chooseRole(rolesList)
+    chooseEmployee(employeeList)[0],
+    chooseRole(rolesList)[0]
 ]
 
 
