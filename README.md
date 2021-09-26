@@ -52,6 +52,6 @@ Once you've run the application using the command "node index", use your keyboar
 
 ## Questions
 For additional questions please contact:
-* Jayme Mizelle
-* Email: jlm_developer@gmail.com
-* https://github.com/jaymemizelle
+* The Privacy Dev
+* Email: theprivacydev@protonmail.com
+* https://github.com/theprivacydev
